@@ -8,6 +8,7 @@ SCREEN_HEIGHT = 600
 SCREEN_TITLE = "Rocket Test"
 SPRITE_SCALE_PLAYER = 0.05
 SPRITE_SCALE_PLANETS = 0.5
+SPRITE_SCALE_BOX = 1
 
 
 class MyGame(arcade.Window):
@@ -28,6 +29,7 @@ class MyGame(arcade.Window):
         # Variables that will hold sprite lists
         self.player_list = None
         self.planet_list = None
+        self.projectile_list = None
 
         # Set up the player info
         self.player_sprite = None
@@ -43,6 +45,7 @@ class MyGame(arcade.Window):
         # Sprite lists
         self.player_list = arcade.SpriteList()
         self.planet_list = arcade.SpriteList()
+        self.projectile_list = arcade.SpriteList()
 
         # Set up planets
         planet1 = arcade.Sprite("images/planet_01.png", scale=SPRITE_SCALE_PLANETS)
@@ -67,6 +70,7 @@ class MyGame(arcade.Window):
         arcade.start_render()
         self.player_list.draw()
         self.planet_list.draw()
+        self.projectile_list.draw()
 
     def on_mouse_motion(self, x, y, dx, dy):
         """ Handle Mouse Motion """
@@ -74,6 +78,14 @@ class MyGame(arcade.Window):
         # Move the center of the player sprite to match the mouse x, y
         self.player_sprite.center_x = x
         self.player_sprite.center_y = y
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        projectile = arcade.Sprite("images/box.png", scale=SPRITE_SCALE_BOX)
+        projectile.center_x = x
+        projectile.center_y = y
+        projectile.velocity = (random.random(), random.random())
+
+        self.projectile_list.append(projectile)
 
     def on_update(self, delta_time):
         """ Movement and game logic """
@@ -84,6 +96,8 @@ class MyGame(arcade.Window):
         # Loop through each colliding sprite, remove it, and add to the score.
         for planet in planet_hit_list:
             planet.remove_from_sprite_lists()
+
+
 
 
 def main():
