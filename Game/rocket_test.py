@@ -7,10 +7,10 @@ import os
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 SCREEN_TITLE = "Rocket Test"
-SPRITE_SCALE_PLAYER = 0.25
+SPRITE_SCALE_PLAYER = 0.15
 SPRITE_SCALE_PLANETS = 0.35
 SPRITE_SCALE_BOX = 0.2
-SPRITE_SCALE_PROJECTILE_DOT = 0.3
+SPRITE_SCALE_PROJECTILE_DOT = 0.01
 PROJECTILE_DOT_FREQ = 10
 GRAV_CONST = 100
 
@@ -18,10 +18,8 @@ DRAW_VELOCITY = False # warning: laggy
 DRAW_PATH = True
 
 def make_star_field(star_count):
-    """ Make a bunch of circles for stars. """
 
     shape_list = arcade.ShapeElementList()
-
     for star_no in range(star_count):
         x = random.randrange(SCREEN_WIDTH)
         y = random.randrange(SCREEN_HEIGHT)
@@ -103,7 +101,7 @@ class MyGame(arcade.Window):
         self.planet_list.append(planet2)
 
         # Set up the player
-        self.player_sprite = arcade.Sprite("images/character.jpeg", scale=SPRITE_SCALE_PLAYER)
+        self.player_sprite = arcade.Sprite("images/character.png", scale=SPRITE_SCALE_PLAYER)
         self.player_sprite.center_x = 50
         self.player_sprite.center_y = 50
         self.player_list.append(self.player_sprite)
@@ -141,9 +139,12 @@ class MyGame(arcade.Window):
         self.player_sprite.center_y = y
 
     def on_mouse_press(self, x, y, button, modifiers):
+
         projectile = arcade.Sprite("images/box.png", scale=SPRITE_SCALE_BOX)
         projectile.center_x = x
         projectile.center_y = y
+
+
         projectile.velocity = (3, 3)
 
         self.projectile_list.append(projectile)
@@ -182,13 +183,11 @@ class MyGame(arcade.Window):
             for projectile in projectile_hit_list:
                 projectile.remove_from_sprite_lists()
 
-
 def main():
     """ Main method """
     window = MyGame()
     window.setup()
     arcade.run()
-
 
 if __name__ == "__main__":
     main()
