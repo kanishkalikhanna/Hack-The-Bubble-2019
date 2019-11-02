@@ -1,24 +1,13 @@
-"""
-Sprite Collect Coins
-
-Simple program to show basic sprite usage.
-
-If Python and Arcade are installed, this example can be run from the command line with:
-python -m arcade.examples.sprite_collect_coins
-"""
-
 import random
 import arcade
 import os
 
 # --- Constants ---
-SPRITE_SCALING_PLAYER = 0.05
-SPRITE_SCALING_COIN = 0.1
-COIN_COUNT = 50
-
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-SCREEN_TITLE = "Sprite Collect Coins Example"
+SCREEN_TITLE = "Rocket Test"
+SPRITE_SCALE_PLAYER = 0.05
+SPRITE_SCALE_PLANETS = 0.5
 
 
 class MyGame(arcade.Window):
@@ -38,14 +27,13 @@ class MyGame(arcade.Window):
 
         # Variables that will hold sprite lists
         self.player_list = None
-        self.coin_list = None
+        self.planet_list = None
 
         # Set up the player info
         self.player_sprite = None
-        self.score = 0
-
-        # Don't show the mouse cursor
-        self.set_mouse_visible(False)
+        #
+        # # Don't show the mouse cursor
+        # self.set_mouse_visible(False)
 
         arcade.set_background_color(arcade.color.AMAZON)
 
@@ -54,41 +42,31 @@ class MyGame(arcade.Window):
 
         # Sprite lists
         self.player_list = arcade.SpriteList()
-        self.coin_list = arcade.SpriteList()
+        self.planet_list = arcade.SpriteList()
 
-        # Score
-        self.score = 0
+        # Set up planets
+        planet1 = arcade.Sprite("images/planet_01.png", scale=SPRITE_SCALE_PLANETS)
+        planet1.center_x = 600
+        planet1.center_y = 300
+
+        planet2 = arcade.Sprite("images/planet_02.png", scale=SPRITE_SCALE_PLANETS)
+        planet2.center_x = 200
+        planet2.center_y = 300
+
+        self.planet_list.append(planet1)
+        self.planet_list.append(planet2)
 
         # Set up the player
-        # Character image from kenney.nl
-        self.player_sprite = arcade.Sprite("images/character.png", SPRITE_SCALING_PLAYER)
+        self.player_sprite = arcade.Sprite("images/character.png", scale=SPRITE_SCALE_PLAYER)
         self.player_sprite.center_x = 50
         self.player_sprite.center_y = 50
         self.player_list.append(self.player_sprite)
 
-        # Create the coins
-        for i in range(COIN_COUNT):
-
-            # Create the coin instance
-            # Coin image from kenney.nl
-            coin = arcade.Sprite("images/coin_01.png", SPRITE_SCALING_COIN)
-
-            # Position the coin
-            coin.center_x = random.randrange(SCREEN_WIDTH)
-            coin.center_y = random.randrange(SCREEN_HEIGHT)
-
-            # Add the coin to the lists
-            self.coin_list.append(coin)
-
     def on_draw(self):
         """ Draw everything """
         arcade.start_render()
-        self.coin_list.draw()
         self.player_list.draw()
-
-        # Put the text on the screen.
-        output = f"Score: {self.score}"
-        arcade.draw_text(output, 10, 20, arcade.color.WHITE, 14)
+        self.planet_list.draw()
 
     def on_mouse_motion(self, x, y, dx, dy):
         """ Handle Mouse Motion """
@@ -100,17 +78,12 @@ class MyGame(arcade.Window):
     def on_update(self, delta_time):
         """ Movement and game logic """
 
-        # Call update on all sprites (The sprites don't do much in this
-        # example though.)
-        self.coin_list.update()
-
         # Generate a list of all sprites that collided with the player.
-        coins_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.coin_list)
+        planet_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.planet_list)
 
         # Loop through each colliding sprite, remove it, and add to the score.
-        for coin in coins_hit_list:
-            coin.remove_from_sprite_lists()
-            self.score += 1
+        for planet in planet_hit_list:
+            planet.remove_from_sprite_lists()
 
 
 def main():
