@@ -7,8 +7,8 @@ import os
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 SCREEN_TITLE = "Rocket Test"
-SPRITE_SCALE_PLAYER = 0.05
-SPRITE_SCALE_PLANETS = 0.25
+SPRITE_SCALE_PLAYER = 0.25
+SPRITE_SCALE_PLANETS = 0.35
 SPRITE_SCALE_BOX = 0.2
 SPRITE_SCALE_PROJECTILE_DOT = 0.3
 PROJECTILE_DOT_FREQ = 10
@@ -17,6 +17,21 @@ GRAV_CONST = 100
 DRAW_VELOCITY = False # warning: laggy
 DRAW_PATH = True
 
+def make_star_field(star_count):
+    """ Make a bunch of circles for stars. """
+
+    shape_list = arcade.ShapeElementList()
+
+    for star_no in range(star_count):
+        x = random.randrange(SCREEN_WIDTH)
+        y = random.randrange(SCREEN_HEIGHT)
+        radius = random.randrange(1, 4)
+        brightness = random.randrange(128, 256)
+        color = (brightness, brightness, brightness)
+        shape = arcade.create_rectangle_filled(x, y, radius, radius, color)
+        shape_list.append(shape)
+
+    return shape_list
 
 # Finds gravitational acceleration between two objects, given their position and the larger object's mass
 def find_velocity(x1, y1, x2, y2, mass):
@@ -33,7 +48,6 @@ def find_velocity(x1, y1, x2, y2, mass):
     gy = g * delta_y / distance
 
     return (gx, gy)
-
 
 class MyGame(arcade.Window):
     """ Our custom Window Class"""
@@ -55,6 +69,7 @@ class MyGame(arcade.Window):
         self.planet_list = None
         self.projectile_list = None
         self.path_list = None
+        self.stars = make_star_field(250)
 
         # Set up the player info
         self.player_sprite = None
@@ -62,7 +77,7 @@ class MyGame(arcade.Window):
         # Variable for drawing
         self.draw_frame = 0
 
-        arcade.set_background_color(arcade.color.AMAZON)
+        arcade.set_background_color(arcade.color.BLACK)
 
     def setup(self):
         """ Set up the game and initialize the variables. """
@@ -88,7 +103,7 @@ class MyGame(arcade.Window):
         self.planet_list.append(planet2)
 
         # Set up the player
-        self.player_sprite = arcade.Sprite("images/character.png", scale=SPRITE_SCALE_PLAYER)
+        self.player_sprite = arcade.Sprite("images/character.jpeg", scale=SPRITE_SCALE_PLAYER)
         self.player_sprite.center_x = 50
         self.player_sprite.center_y = 50
         self.player_list.append(self.player_sprite)
@@ -100,13 +115,14 @@ class MyGame(arcade.Window):
         arcade.start_render()
         self.player_list.draw()
         self.planet_list.draw()
+        self.stars.draw()
         self.projectile_list.draw()
         self.path_list.draw()
 
         if DRAW_PATH:
             if self.draw_frame % PROJECTILE_DOT_FREQ == 0:
                 for projectile in self.projectile_list:
-                    path_dot = arcade.create_rectangle_filled(projectile.center_x, projectile.center_y, 10, 10, arcade.color.BLACK)
+                    path_dot = arcade.create_rectangle_filled(projectile.center_x, projectile.center_y, 10, 10, arcade.color.LIGHT_SEA_GREEN)
                     self.path_list.append(path_dot)
 
         # draw text on its velocity
@@ -165,7 +181,6 @@ class MyGame(arcade.Window):
             # Loop through each colliding projectile and remove it.
             for projectile in projectile_hit_list:
                 projectile.remove_from_sprite_lists()
-
 
 
 def main():

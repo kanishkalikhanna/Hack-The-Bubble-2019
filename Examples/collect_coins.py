@@ -21,22 +21,6 @@ SCREEN_HEIGHT = 600
 SCREEN_TITLE = "Sprite Collect Coins Example"
 
 
-def make_star_field(star_count):
-    """ Make a bunch of circles for stars. """
-
-    shape_list = arcade.ShapeElementList()
-
-    for star_no in range(star_count):
-        x = random.randrange(SCREEN_WIDTH)
-        y = random.randrange(SCREEN_HEIGHT)
-        radius = random.randrange(2, 7)
-        brightness = random.randrange(50, 256)
-        color = (brightness, brightness, brightness)
-        shape = arcade.create_rectangle_filled(x, y, radius, radius, color)
-        shape_list.append(shape)
-
-    return shape_list
-
 class MyGame(arcade.Window):
     """ Our custom Window Class"""
 
@@ -59,7 +43,6 @@ class MyGame(arcade.Window):
         # Set up the player info
         self.player_sprite = None
         self.score = 0
-        self.stars = make_star_field(1000)
 
         # Don't show the mouse cursor
         self.set_mouse_visible(False)
@@ -99,7 +82,6 @@ class MyGame(arcade.Window):
     def on_draw(self):
         """ Draw everything """
         arcade.start_render()
-        self.stars.draw()
         self.coin_list.draw()
         self.player_list.draw()
 
