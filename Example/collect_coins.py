@@ -12,14 +12,30 @@ import arcade
 import os
 
 # --- Constants ---
-SPRITE_SCALING_PLAYER = 0.05
-SPRITE_SCALING_COIN = 0.1
-COIN_COUNT = 50
+SPRITE_SCALING_ROCKET = 0.7
+SPRITE_SCALING_COIN = 0.2
+COIN_COUNT = 20
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 SCREEN_TITLE = "Sprite Collect Coins Example"
 
+
+def make_star_field(star_count):
+    """ Make a bunch of circles for stars. """
+
+    shape_list = arcade.ShapeElementList()
+
+    for star_no in range(star_count):
+        x = random.randrange(SCREEN_WIDTH)
+        y = random.randrange(SCREEN_HEIGHT)
+        radius = random.randrange(2, 7)
+        brightness = random.randrange(50, 256)
+        color = (brightness, brightness, brightness)
+        shape = arcade.create_rectangle_filled(x, y, radius, radius, color)
+        shape_list.append(shape)
+
+    return shape_list
 
 class MyGame(arcade.Window):
     """ Our custom Window Class"""
@@ -43,11 +59,12 @@ class MyGame(arcade.Window):
         # Set up the player info
         self.player_sprite = None
         self.score = 0
+        self.stars = make_star_field(1000)
 
         # Don't show the mouse cursor
         self.set_mouse_visible(False)
 
-        arcade.set_background_color(arcade.color.AMAZON)
+        arcade.set_background_color(arcade.color.BLACK)
 
     def setup(self):
         """ Set up the game and initialize the variables. """
@@ -60,7 +77,7 @@ class MyGame(arcade.Window):
         self.score = 0
 
         # setting up rocket
-        self.player_sprite = arcade.Sprite("images/rocket.png", SPRITE_SCALING_PLAYER)
+        self.player_sprite = arcade.Sprite("images/rocket.png", SPRITE_SCALING_ROCKET)
         self.player_sprite.center_x = 50
         self.player_sprite.center_y = 50
         self.player_list.append(self.player_sprite)
@@ -82,6 +99,7 @@ class MyGame(arcade.Window):
     def on_draw(self):
         """ Draw everything """
         arcade.start_render()
+        self.stars.draw()
         self.coin_list.draw()
         self.player_list.draw()
 
