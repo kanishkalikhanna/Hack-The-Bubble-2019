@@ -59,9 +59,8 @@ class MyGame(arcade.Window):
         # Score
         self.score = 0
 
-        # Set up the player
-        # Character image from kenney.nl
-        self.player_sprite = arcade.Sprite("images/character.png", SPRITE_SCALING_PLAYER)
+        # setting up rocket
+        self.player_sprite = arcade.Sprite("images/rocket.png", SPRITE_SCALING_PLAYER)
         self.player_sprite.center_x = 50
         self.player_sprite.center_y = 50
         self.player_list.append(self.player_sprite)
@@ -71,7 +70,7 @@ class MyGame(arcade.Window):
 
             # Create the coin instance
             # Coin image from kenney.nl
-            coin = arcade.Sprite("images/coin_01.png", SPRITE_SCALING_COIN)
+            coin = arcade.Sprite("images/coin.jpeg", SPRITE_SCALING_COIN)
 
             # Position the coin
             coin.center_x = random.randrange(SCREEN_WIDTH)
@@ -100,7 +99,7 @@ class MyGame(arcade.Window):
     def on_update(self, delta_time):
         """ Movement and game logic """
 
-        # Call update on all sprites (The sprites don't do much in this
+        # Call update on all sprites (The sprites don't do much in /Users/kanishkkhanna/Desktop/CS/Hack-The-Bubble-2019/Example/collect_coins.pythis
         # example though.)
         self.coin_list.update()
 
