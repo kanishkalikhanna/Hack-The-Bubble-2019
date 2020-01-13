@@ -3,5 +3,4 @@ Hack The Bubble 2019
 
 Project name: Trajectory Simulation.
 
-Visualise how an object move in a simulated solar system providing intital velocity and location. 
-Team work with both python arcade library and Unity game engine to approach the problem.
+In our project we have created a visualisation of how an object moves in a simulated solar system provided an intital velocity and location. The team developed this using both Python arcade and the Unity game engine. 
