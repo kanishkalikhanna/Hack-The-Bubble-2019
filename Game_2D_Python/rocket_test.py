@@ -4,8 +4,8 @@ import arcade
 import os
 
 # --- Constants ---
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 1200
+SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Rocket Test"
 SPRITE_SCALE_PLAYER = 0.15
 SPRITE_SCALE_PLANETS = 0.35
@@ -88,13 +88,13 @@ class MyGame(arcade.Window):
 
         # Set up planets
         planet1 = arcade.Sprite("images/planet_01.png", scale=SPRITE_SCALE_PLANETS)
-        planet1.center_x = 600
-        planet1.center_y = 300
+        planet1.center_x = 800
+        planet1.center_y = 400
         planet1.collision_radius = 40
 
         planet2 = arcade.Sprite("images/planet_02.png", scale=SPRITE_SCALE_PLANETS)
-        planet2.center_x = 200
-        planet2.center_y = 300
+        planet2.center_x = 400
+        planet2.center_y = 400
         planet2.collision_radius = 40
 
         self.planet_list.append(planet1)
